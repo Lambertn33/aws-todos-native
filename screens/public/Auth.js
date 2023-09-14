@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import AuthForm from "../components/auth/AuthForm";
+import AuthForm from "../../components/auth/AuthForm";
 
 const Auth = ({ navigation }) => {
   const navigateBack = () => {
