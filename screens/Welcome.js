@@ -1,8 +1,13 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { GlobalStyles } from "../constants/styles";
 
-const Welcome = () => {
+const Welcome = ({ navigation }) => {
   const todosImage = require("../assets/images/todo.png");
+
+  const navigateToAuthHandler = () => {
+    navigation.navigate("auth");
+  };
+
   return (
     <View style={styles.container}>
       <Image source={todosImage} style={styles.image} />
@@ -17,7 +22,7 @@ const Welcome = () => {
           </Text>
         </View>
         <View style={styles.button}>
-          <Pressable onPress={() => null}>
+          <Pressable onPress={navigateToAuthHandler}>
             <Text style={styles.buttonLabel}>Get started</Text>
           </Pressable>
         </View>
@@ -28,20 +33,21 @@ const Welcome = () => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: GlobalStyles.colors.secondary,
+    backgroundColor: GlobalStyles.colors.primary,
     paddingVertical: 16,
     flexDirection: "row",
     justifyContent: "center",
+    alignItems: "center",
     borderRadius: 50,
   },
 
   buttonLabel: {
-    color: GlobalStyles.colors.primary,
+    color: "white",
     fontSize: 20,
     fontWeight: "800",
   },
   container: {
-    backgroundColor: GlobalStyles.colors.primary,
+    backgroundColor: GlobalStyles.colors.secondary,
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",

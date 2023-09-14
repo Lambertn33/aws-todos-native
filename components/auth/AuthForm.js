@@ -4,7 +4,7 @@ import Input from "../UI/Input";
 import { GlobalStyles } from "../../constants/styles";
 import Button from "../UI/Button";
 
-const AuthForm = () => {
+const AuthForm = ({ onNavigateBack }) => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [inputValues, setInputValues] = useState({
@@ -33,8 +33,12 @@ const AuthForm = () => {
 
   return (
     <View style={styles.formContainer}>
+      <Text style={styles.formTitle}>AWS Todos App</Text>
+      {/* FORM */}
       <View style={styles.form}>
         <Text style={styles.title}>{isLoginMode ? "Login" : "Signup"}</Text>
+
+        {/* FORM INPUTS */}
         <View style={styles.inputsRow}>
           {!isLoginMode && (
             <Input
@@ -63,31 +67,54 @@ const AuthForm = () => {
             }}
           />
         </View>
+        {/* FORM INPUTS*/}
+
+        {/* FORM ACTIONS*/}
         <View style={styles.buttonsContainer}>
-          <Button onPress={()=>console.log('hi')}>
+          <Button onPress={() => console.log("hi")}>
             {isLoginMode ? "Login" : "Signup"}
           </Button>
-          <TouchableOpacity onPress={toggleAuthMode}>
-            <Text>
-              {isLoginMode ? "No account Yet?" : "Already have an account?"}
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.formActions}>
+            <TouchableOpacity onPress={toggleAuthMode}>
+              <Text style={styles.formAction}>
+                {isLoginMode ? "No account Yet?" : "Already have an account?"}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onNavigateBack}>
+              <Text style={styles.formAction}>Return home</Text>
+            </TouchableOpacity>
+          </View>
         </View>
+        {/* FORM ACTIONS*/}
       </View>
+      {/* FORM */}
     </View>
   );
 };
 const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
+    gap: 12,
     backgroundColor: GlobalStyles.colors.secondary,
     paddingHorizontal: 24,
+    justifyContent: "center",
   },
   form: {
-    marginTop: 35,
     backgroundColor: GlobalStyles.colors.primary,
     padding: 24,
     borderRadius: 6,
+  },
+  formActions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  formAction: {
+    fontWeight: "500",
+  },
+  formTitle: {
+    fontSize: 24,
+    textAlign: "center",
+    fontWeight: "700",
   },
   buttonsContainer: {
     flexDirection: "column",

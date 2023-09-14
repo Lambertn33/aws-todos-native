@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
+    fontWeight:'500'
   },
 
   pressed: {

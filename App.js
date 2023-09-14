@@ -1,15 +1,34 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import AuthForm from "./components/auth/AuthForm";
-import Auth from "./screens/Auth";
+import { StyleSheet } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Welcome from "./screens/Welcome";
+import Auth from "./screens/Auth";
+
+const Stack = createNativeStackNavigator();
+
+const PublicStack = () => {
+  const screenOptions = {
+    headerShown: false,
+  };
+
+  return (
+    <Stack.Navigator initialRouteName="welcome" screenOptions={screenOptions}>
+      <Stack.Screen name="auth" component={Auth} />
+      <Stack.Screen name="welcome" component={Welcome} />
+    </Stack.Navigator>
+  );
+};
+
+const Root = () => {
+  return (
+    <NavigationContainer>
+      <PublicStack />
+    </NavigationContainer>
+  );
+};
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Welcome />
-    </View>
-  );
+  return <Root />;
 }
 
 const styles = StyleSheet.create({
