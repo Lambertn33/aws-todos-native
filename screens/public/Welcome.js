@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
-import { GlobalStyles } from "../constants/styles";
+import { GlobalStyles } from "../../constants/styles";
 
 const Welcome = ({ navigation }) => {
-  const todosImage = require("../assets/images/todo.png");
+  const todosImage = require("../../assets/images/todo.png");
 
   const navigateToAuthHandler = () => {
     navigation.navigate("auth");

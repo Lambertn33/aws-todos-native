@@ -36,8 +36,6 @@ const AuthForm = ({ onNavigateBack }) => {
       <Text style={styles.formTitle}>AWS Todos App</Text>
       {/* FORM */}
       <View style={styles.form}>
-        <Text style={styles.title}>{isLoginMode ? "Login" : "Signup"}</Text>
-
         {/* FORM INPUTS */}
         <View style={styles.inputsRow}>
           {!isLoginMode && (
@@ -100,9 +98,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   form: {
-    backgroundColor: GlobalStyles.colors.primary,
+    backgroundColor: 'white',
     padding: 24,
     borderRadius: 6,
+    gap: 18,
   },
   formActions: {
     flexDirection: "row",
@@ -110,22 +109,19 @@ const styles = StyleSheet.create({
   },
   formAction: {
     fontWeight: "500",
+    color: GlobalStyles.colors.primary,
+    fontSize: 15
   },
   formTitle: {
     fontSize: 24,
     textAlign: "center",
-    fontWeight: "700",
+    fontWeight: "800",
+    color: GlobalStyles.colors.primary
   },
   buttonsContainer: {
     flexDirection: "column",
     justifyContent: "center",
     gap: 4,
-  },
-  title: {
-    fontSize: 18,
-    color: "white",
-    textAlign: "center",
-    fontWeight: "700",
   },
   inputsRow: {
     gap: 12,

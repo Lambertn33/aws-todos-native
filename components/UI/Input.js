@@ -16,12 +16,14 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   label: {
-    color: GlobalStyles.colors.secondary,
-    fontWeight: "700",
+    color: GlobalStyles.colors.primary,
+    fontSize: 18,
+    fontWeight: "500",
   },
   input: {
-    backgroundColor: GlobalStyles.colors.secondary,
-    color: "black",
+    borderColor: GlobalStyles.colors.primary,
+    borderWidth: 1,
+    color: GlobalStyles.colors.primary,
     paddingHorizontal: 6,
     paddingVertical: 6,
     borderRadius: 6,

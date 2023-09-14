@@ -1,14 +1,14 @@
 import { StyleSheet, Pressable, View, Text } from "react-native";
 import { GlobalStyles } from "../../constants/styles";
 
-const Button = ({ children, onPress, backgroundColor }) => {
+const Button = ({ children, onPress }) => {
   return (
     <View>
       <Pressable
         onPress={onPress}
         style={({ pressed }) => pressed && styles.pressed}
       >
-        <View style={[styles.buttonContainer, { backgroundColor: backgroundColor }]}>
+        <View style={styles.buttonContainer}>
           <Text style={styles.buttonText}>{children}</Text>
         </View>
       </Pressable>
@@ -18,8 +18,10 @@ const Button = ({ children, onPress, backgroundColor }) => {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    paddingVertical: 6,
+    backgroundColor: GlobalStyles.colors.primary,
+    paddingVertical: 12,
     paddingHorizontal: 12,
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
   },
