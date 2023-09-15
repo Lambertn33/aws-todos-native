@@ -1,11 +1,10 @@
 import { createContext, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { signInHelper, signOutHelper } from "../helpers/auth";
+import { getCurrentUserHelper, signInHelper, signOutHelper } from "../helpers/auth";
 
 export const AuthContext = createContext({
   user: null,
-  isLoading: false,
   signIn: (username, password) => {},
   signOut: () => {},
 });
@@ -16,7 +15,7 @@ const AuthContextProvider = ({ children }) => {
   const getCurrentUser = async () => {
     try {
       const user = await getCurrentUserHelper();
-      AsyncStorage.setItem("token", user.token);
+      await AsyncStorage.setItem("token", user.token);
       setUser(user);
     } catch (err) {
       setUser(null);
@@ -27,15 +26,16 @@ const AuthContextProvider = ({ children }) => {
     await signInHelper(username, password);
     await getCurrentUser();
   };
+
   const signOut = async () => {
     await signOutHelper();
-    AsyncStorage.removeItem("token");
+    console.log('logout');
+    await AsyncStorage.removeItem("token");
     setUser(null);
   };
 
   const authValue = {
     user,
-    isLoading,
     signIn,
     signOut,
   };

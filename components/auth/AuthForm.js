@@ -54,9 +54,9 @@ const AuthForm = ({
 
   const submitForm = () => {
     if (
-      !validateInput(inputValues.email) ||
+      !validateInput(inputValues.username) ||
       !validateInput(inputValues.password) ||
-      (!authIsLogin && !validateInput(inputValues.username))
+      (!authIsLogin && !validateInput(inputValues.email))
     ) {
       Alert.alert("Validation errors", "Please fill all inputs and try again");
       return;
@@ -74,24 +74,24 @@ const AuthForm = ({
           <View style={styles.form}>
             {/* FORM INPUTS */}
             <View style={styles.inputsRow}>
+              <Input
+                label="Username"
+                otherProps={{
+                  keyboardType: "default",
+                  onChangeText: inputChangedHandler.bind(this, "username"),
+                  value: inputValues.username,
+                }}
+              />
               {!authIsLogin && (
                 <Input
-                  label="Username"
+                  label="Email"
                   otherProps={{
-                    keyboardType: "default",
-                    onChangeText: inputChangedHandler.bind(this, "username"),
-                    value: inputValues.names,
+                    keyboardType: "email-address",
+                    onChangeText: inputChangedHandler.bind(this, "email"),
+                    value: inputValues.email,
                   }}
                 />
               )}
-              <Input
-                label="Email"
-                otherProps={{
-                  keyboardType: "email-address",
-                  onChangeText: inputChangedHandler.bind(this, "email"),
-                  value: inputValues.email,
-                }}
-              />
               <Input
                 label="Password"
                 otherProps={{

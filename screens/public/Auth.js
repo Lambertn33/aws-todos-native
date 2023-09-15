@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { View, StyleSheet } from "react-native";
 import { signUpHelper } from "../../helpers/auth";
 import AuthForm from "../../components/auth/AuthForm";
+
+import { AuthContext } from "../../context/authContext";
 
 const Auth = ({ navigation }) => {
   const [authIsLogin, setAuthIsLogin] = useState(true);
@@ -10,6 +12,8 @@ const Auth = ({ navigation }) => {
     success: false,
     isSubmitting: false,
   });
+
+  const authCtx = useContext(AuthContext);
 
   const changeAuthHandler = () => {
     setAuthIsLogin(!authIsLogin);
@@ -25,12 +29,17 @@ const Auth = ({ navigation }) => {
   const handleAuth = async (authInputs) => {
     const { username, email, password } = authInputs;
     try {
+      setCognitoAuth((prevState) => {
+        return { ...prevState, isSubmitting: true };
+      });
       if (authIsLogin) {
-        console.log("Login.......");
-      } else {
+        // signin
+        await authCtx.signIn(username, password);
         setCognitoAuth((prevState) => {
-          return { ...prevState, isSubmitting: true };
+          return { ...prevState, isSubmitting: false };
         });
+      } else {
+        // signup
         await signUpHelper(username, email, password);
         navigation.push("confirm", {
           userToConfirm: {
@@ -39,9 +48,9 @@ const Auth = ({ navigation }) => {
           },
         });
       }
-    } catch (err) {
+    } catch (error) {
       setCognitoAuth((prevState) => {
-        return { ...prevState, error: err.message, isSubmitting: false };
+        return { ...prevState, error: error.message, isSubmitting: false };
       });
     }
   };
