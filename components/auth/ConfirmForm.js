@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Alert } from "react-native";
 
 import Input from "../UI/Input";
 import Button from "../UI/Button";
+import Loader from "../UI/Loader";
+
 import { GlobalStyles } from "../../constants/styles";
 
 const ConfirmForm = ({
@@ -11,6 +13,7 @@ const ConfirmForm = ({
   clearErrorHandler,
   hasError,
   errorMessage,
+  isSubmitting,
 }) => {
   const [confirmData, setConfirmData] = useState({
     code: "",
@@ -53,21 +56,25 @@ const ConfirmForm = ({
 
   return (
     <View style={styles.formContainer}>
-      <View style={styles.form}>
-        <Text style={styles.formTitle}>
-          Dear {userToConfirm.username} Please enter the code sent to{" "}
-          {userToConfirm.email}
-        </Text>
-        <Input
-          label="Code"
-          otherProps={{
-            keyboardType: "numeric",
-            onChangeText: changeInputHandler.bind(this, "code"),
-            value: confirmData.code,
-          }}
-        />
-        <Button onPress={submitForm}>Confirm Account</Button>
-      </View>
+      {isSubmitting ? (
+        <Loader />
+      ) : (
+        <View style={styles.form}>
+          <Text style={styles.formTitle}>
+            Dear {userToConfirm.username} Please enter the code sent to{" "}
+            {userToConfirm.email}
+          </Text>
+          <Input
+            label="Code"
+            otherProps={{
+              keyboardType: "numeric",
+              onChangeText: changeInputHandler.bind(this, "code"),
+              value: confirmData.code,
+            }}
+          />
+          <Button onPress={submitForm}>Confirm Account</Button>
+        </View>
+      )}
     </View>
   );
 };

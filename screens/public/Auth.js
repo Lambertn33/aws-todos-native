@@ -32,9 +32,6 @@ const Auth = ({ navigation }) => {
           return { ...prevState, isSubmitting: true };
         });
         await signUpHelper(username, email, password);
-        setCognitoAuth((prevState) => {
-          return { ...prevState, success: true, isSubmitting: false };
-        });
         navigation.push("confirm", {
           userToConfirm: {
             username: username,

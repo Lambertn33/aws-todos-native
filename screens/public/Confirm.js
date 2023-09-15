@@ -29,9 +29,6 @@ const Confirm = ({ route, navigation }) => {
       navigation.push("successConfirm", {
         confirmedUser: userToConfirm,
       });
-      setCognitoAccountConfirm((prevState) => {
-        return { ...prevState, success: true, isSubmitting: false };
-      });
     } catch (err) {
       setCognitoAccountConfirm((prevState) => {
         return { ...prevState, error: err.message, isSubmitting: false };
@@ -43,6 +40,7 @@ const Confirm = ({ route, navigation }) => {
       <ConfirmForm
         clearErrorHandler={clearErrorHandler}
         confirmAccount={confirmAccount}
+        isSubmitting={cognitoAccountConfirm.isSubmitting}
         errorMessage={cognitoAccountConfirm.error}
         hasError={cognitoAccountConfirm.error.trim().length > 0}
         userToConfirm={userToConfirm}
