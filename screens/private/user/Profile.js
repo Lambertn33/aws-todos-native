@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { AuthContext } from "../../../context/authContext";
 import Button from "../../../components/UI/Button";
