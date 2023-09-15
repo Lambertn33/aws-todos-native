@@ -4,7 +4,7 @@ import Input from "../../UI/Input";
 import Button from "../../UI/Button";
 import Loader from "../../UI/Loader";
 
-const CreateTodoForm = ({ onCreateNewTodo, hasError, isSubmitting }) => {
+const ManageTodoForm = ({ onCreateNewTodo, hasError, isSubmitting }) => {
   const [inputValues, setInputValues] = useState({
     title: "",
     description: "",
@@ -90,4 +90,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateTodoForm;
+export default ManageTodoForm;

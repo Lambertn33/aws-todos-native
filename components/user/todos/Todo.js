@@ -1,10 +1,17 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const Todo = ({ todo, onDeleteTodo }) => {
+  const navigation = useNavigation();
+
   const deleteTodoHandler = () => {
     onDeleteTodo(todo.TodoId);
   };
+
+  const navigateToTodoUpdatePage = () => {
+    navigation.push("cre")
+  }
 
   return (
     <View style={styles.todo}>

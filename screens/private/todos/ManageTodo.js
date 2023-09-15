@@ -1,11 +1,11 @@
 import { View, StyleSheet, Alert } from "react-native";
 import { createTodoHelper } from "../../../helpers/todos";
 
-import CreateTodoForm from "../../../components/user/todos/CreateTodoForm";
+import ManageTodoForm from "../../../components/user/todos/ManageTodoForm";
 import { GlobalStyles } from "../../../constants/styles";
 import { useState } from "react";
 
-const CreateTodo = ({ navigation }) => {
+const ManageTodo = ({ navigation }) => {
   const [newTodo, setNewTodo] = useState({
     isSubmitting: false,
     error: "",
@@ -42,7 +42,7 @@ const CreateTodo = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <CreateTodoForm
+      <ManageTodoForm
         hasError={newTodo.error.trim().length > 0}
         isSubmitting={newTodo.isSubmitting}
         onCreateNewTodo={createNewTodoHandler}
@@ -63,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateTodo;
+export default ManageTodo;

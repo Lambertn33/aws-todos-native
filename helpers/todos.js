@@ -32,6 +32,19 @@ export async function getTodosHelper() {
   return await response.data;
 }
 
+export async function updateTodoHelper(todoId, title, description) {
+  const response = await axios.post(
+    `${todosEndpoint}/${todoId}`,
+    { title, description },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return await response.data;
+}
+
 export async function deleteTodoHelper(todoId) {
   const token = await getToken();
   const response = await axios.delete(`${todosEndpoint}/${todoId}`, {

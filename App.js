@@ -11,7 +11,7 @@ import Auth from "./screens/public/Auth";
 import SuccessConfirm from "./screens/public/SuccessConfirm";
 
 import Todos from "./screens/private/todos/Todos";
-import CreateTodo from "./screens/private/todos/CreateTodo";
+import ManageTodo from "./screens/private/todos/ManageTodo";
 import Profile from "./screens/private/user/Profile";
 
 import AuthContextProvider from "./context/authContext";
@@ -73,8 +73,8 @@ const PrivateStack = () => {
         }}
       />
       <Tabs.Screen
-        component={CreateTodo}
-        name="createTodo"
+        component={ManageTodo}
+        name="manageTodo"
         options={{
           title: "New Todo",
           tabBarLabel: "New todo",
