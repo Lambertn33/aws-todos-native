@@ -16,14 +16,14 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   label: {
-    color: GlobalStyles.colors.primary,
+    color: GlobalStyles.colors.dark,
     fontSize: 18,
     fontWeight: "500",
   },
   input: {
-    borderColor: GlobalStyles.colors.primary,
+    borderColor: "black",
     borderWidth: 1,
-    color: GlobalStyles.colors.primary,
+    color: GlobalStyles.colors.dark,
     paddingHorizontal: 6,
     paddingVertical: 6,
     borderRadius: 6,

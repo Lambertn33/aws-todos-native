@@ -48,9 +48,9 @@ const Auth = ({ navigation }) => {
           },
         });
       }
-    } catch (error) {
+    } catch (err) {
       setCognitoAuth((prevState) => {
-        return { ...prevState, error: error.message, isSubmitting: false };
+        return { ...prevState, error: err.message, isSubmitting: false };
       });
     }
   };
