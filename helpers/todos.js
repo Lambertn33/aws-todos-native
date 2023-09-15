@@ -17,3 +17,13 @@ export async function getTodosHelper() {
   });
   return await response.data;
 }
+
+export async function deleteTodoHelper(todoId) {
+  const token = await getToken();
+  const response = await axios.delete(`${todosEndpoint}/${todoId}`, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return await response.data;
+}

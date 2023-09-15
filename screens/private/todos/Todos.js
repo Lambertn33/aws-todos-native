@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, Alert } from "react-native";
 import { GlobalStyles } from "../../../constants/styles";
 
-import { getTodosHelper } from "../../../helpers/todos";
+import { deleteTodoHelper, getTodosHelper } from "../../../helpers/todos";
 
 import Loader from "../../../components/UI/Loader";
 import TodosList from "../../../components/user/todos/TodosList";
@@ -28,6 +28,29 @@ const Todos = () => {
     fetchTodos();
   }, []);
 
+  // delete todo
+  const deleteTodoHandler = async (todoId) => {
+    try {
+      setTodosState((prevState) => {
+        return { ...prevState, isLoading: true };
+      });
+      await deleteTodoHelper(todoId);
+      const filteredTodos = todosState.todos.filter(
+        (todo) => todo.TodoId !== todoId
+      );
+      setTodosState({
+        isLoading: false,
+        todos: filteredTodos,
+      });
+      Alert.alert("Success", "Todo deleted successfully");
+    } catch (error) {
+      Alert.alert("Error", error.message);
+      setTodosState({
+        isLoading: false,
+      });
+    }
+  };
+
   return (
     <View style={styles.container}>
       {todosState.isLoading ? (
@@ -35,7 +58,7 @@ const Todos = () => {
           <Loader />
         </View>
       ) : (
-        <TodosList todos={todosState.todos} />
+        <TodosList todos={todosState.todos} onDeleteTodo={deleteTodoHandler} />
       )}
     </View>
   );
