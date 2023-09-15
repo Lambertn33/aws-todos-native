@@ -1,25 +1,42 @@
-import { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import Input from "../UI/Input";
+import { useState, useEffect } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { GlobalStyles } from "../../constants/styles";
+import Input from "../UI/Input";
 import Button from "../UI/Button";
 
-const AuthForm = ({ onNavigateBack }) => {
-  const [isLoginMode, setIsLoginMode] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+const AuthForm = ({
+  onNavigateBack,
+  authIsLogin,
+  clearErrorHandler,
+  changeAuthHandler,
+  handleAuth,
+  errorMessage,
+  hasError,
+}) => {
   const [inputValues, setInputValues] = useState({
-    names: "",
+    username: "",
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (hasError) {
+      Alert.alert("Error", errorMessage, [
+        {
+          text: "Retry",
+          onPress: clearErrorHandler,
+        },
+      ]);
+    }
+  }, [hasError]);
 
   const toggleAuthMode = () => {
     setInputValues({
       email: "",
       password: "",
-      names: "",
+      username: "",
     });
-    setIsLoginMode(!isLoginMode);
+    changeAuthHandler();
   };
 
   const inputChangedHandler = (input, value) => {
@@ -31,6 +48,20 @@ const AuthForm = ({ onNavigateBack }) => {
     });
   };
 
+  const validateInput = (input) => input.trim().length > 0;
+
+  const submitForm = () => {
+    if (
+      !validateInput(inputValues.email) ||
+      !validateInput(inputValues.password) ||
+      (!authIsLogin && !validateInput(inputValues.username))
+    ) {
+      Alert.alert("Validation errors", "Please fill all inputs and try again");
+      return;
+    }
+    handleAuth(inputValues);
+  };
+
   return (
     <View style={styles.formContainer}>
       <Text style={styles.formTitle}>AWS Todos App</Text>
@@ -38,12 +69,12 @@ const AuthForm = ({ onNavigateBack }) => {
       <View style={styles.form}>
         {/* FORM INPUTS */}
         <View style={styles.inputsRow}>
-          {!isLoginMode && (
+          {!authIsLogin && (
             <Input
-              label="Names"
+              label="Username"
               otherProps={{
                 keyboardType: "default",
-                onChangeText: inputChangedHandler.bind(this, "names"),
+                onChangeText: inputChangedHandler.bind(this, "username"),
                 value: inputValues.names,
               }}
             />
@@ -69,13 +100,13 @@ const AuthForm = ({ onNavigateBack }) => {
 
         {/* FORM ACTIONS*/}
         <View style={styles.buttonsContainer}>
-          <Button onPress={() => console.log("hi")}>
-            {isLoginMode ? "Login" : "Signup"}
+          <Button onPress={submitForm}>
+            {authIsLogin ? "Login" : "Signup"}
           </Button>
           <View style={styles.formActions}>
             <TouchableOpacity onPress={toggleAuthMode}>
               <Text style={styles.formAction}>
-                {isLoginMode ? "No account Yet?" : "Already have an account?"}
+                {authIsLogin ? "No account Yet?" : "Already have an account?"}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={onNavigateBack}>
@@ -98,7 +129,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   form: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 24,
     borderRadius: 6,
     gap: 18,
@@ -110,13 +141,13 @@ const styles = StyleSheet.create({
   formAction: {
     fontWeight: "500",
     color: GlobalStyles.colors.primary,
-    fontSize: 15
+    fontSize: 15,
   },
   formTitle: {
     fontSize: 24,
     textAlign: "center",
     fontWeight: "800",
-    color: GlobalStyles.colors.primary
+    color: GlobalStyles.colors.primary,
   },
   buttonsContainer: {
     flexDirection: "column",
