@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { GlobalStyles } from "../../constants/styles";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
+import Loader from "../UI/Loader";
 
 const AuthForm = ({
   onNavigateBack,
@@ -11,6 +12,7 @@ const AuthForm = ({
   changeAuthHandler,
   handleAuth,
   errorMessage,
+  isSubmitting,
   hasError,
 }) => {
   const [inputValues, setInputValues] = useState({
@@ -64,59 +66,65 @@ const AuthForm = ({
 
   return (
     <View style={styles.formContainer}>
-      <Text style={styles.formTitle}>AWS Todos App</Text>
-      {/* FORM */}
-      <View style={styles.form}>
-        {/* FORM INPUTS */}
-        <View style={styles.inputsRow}>
-          {!authIsLogin && (
-            <Input
-              label="Username"
-              otherProps={{
-                keyboardType: "default",
-                onChangeText: inputChangedHandler.bind(this, "username"),
-                value: inputValues.names,
-              }}
-            />
-          )}
-          <Input
-            label="Email"
-            otherProps={{
-              keyboardType: "email-address",
-              onChangeText: inputChangedHandler.bind(this, "email"),
-              value: inputValues.email,
-            }}
-          />
-          <Input
-            label="Password"
-            otherProps={{
-              secureTextEntry: true,
-              onChangeText: inputChangedHandler.bind(this, "password"),
-              value: inputValues.password,
-            }}
-          />
-        </View>
-        {/* FORM INPUTS*/}
+      {isSubmitting ? (
+        <Loader />
+      ) : (
+        <>
+          <Text style={styles.formTitle}>AWS Todos App</Text>
+          <View style={styles.form}>
+            {/* FORM INPUTS */}
+            <View style={styles.inputsRow}>
+              {!authIsLogin && (
+                <Input
+                  label="Username"
+                  otherProps={{
+                    keyboardType: "default",
+                    onChangeText: inputChangedHandler.bind(this, "username"),
+                    value: inputValues.names,
+                  }}
+                />
+              )}
+              <Input
+                label="Email"
+                otherProps={{
+                  keyboardType: "email-address",
+                  onChangeText: inputChangedHandler.bind(this, "email"),
+                  value: inputValues.email,
+                }}
+              />
+              <Input
+                label="Password"
+                otherProps={{
+                  secureTextEntry: true,
+                  onChangeText: inputChangedHandler.bind(this, "password"),
+                  value: inputValues.password,
+                }}
+              />
+            </View>
+            {/* FORM INPUTS*/}
 
-        {/* FORM ACTIONS*/}
-        <View style={styles.buttonsContainer}>
-          <Button onPress={submitForm}>
-            {authIsLogin ? "Login" : "Signup"}
-          </Button>
-          <View style={styles.formActions}>
-            <TouchableOpacity onPress={toggleAuthMode}>
-              <Text style={styles.formAction}>
-                {authIsLogin ? "No account Yet?" : "Already have an account?"}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={onNavigateBack}>
-              <Text style={styles.formAction}>Return home</Text>
-            </TouchableOpacity>
+            {/* FORM ACTIONS*/}
+            <View style={styles.buttonsContainer}>
+              <Button onPress={submitForm}>
+                {authIsLogin ? "Login" : "Signup"}
+              </Button>
+              <View style={styles.formActions}>
+                <TouchableOpacity onPress={toggleAuthMode}>
+                  <Text style={styles.formAction}>
+                    {authIsLogin
+                      ? "No account Yet?"
+                      : "Already have an account?"}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={onNavigateBack}>
+                  <Text style={styles.formAction}>Return home</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            {/* FORM ACTIONS*/}
           </View>
-        </View>
-        {/* FORM ACTIONS*/}
-      </View>
-      {/* FORM */}
+        </>
+      )}
     </View>
   );
 };

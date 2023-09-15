@@ -28,6 +28,9 @@ const Auth = ({ navigation }) => {
       if (authIsLogin) {
         console.log("Login.......");
       } else {
+        setCognitoAuth((prevState) => {
+          return { ...prevState, isSubmitting: true };
+        });
         await signUpHelper(username, email, password);
         setCognitoAuth((prevState) => {
           return { ...prevState, success: true, isSubmitting: false };
@@ -57,6 +60,7 @@ const Auth = ({ navigation }) => {
         changeAuthHandler={changeAuthHandler}
         clearErrorHandler={clearErrorHandler}
         errorMessage={cognitoAuth.error}
+        isSubmitting={cognitoAuth.isSubmitting}
         handleAuth={handleAuth}
         hasError={cognitoAuth.error.trim().length > 0}
         onNavigateBack={navigateBack}
