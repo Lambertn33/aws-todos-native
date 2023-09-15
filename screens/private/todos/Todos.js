@@ -5,7 +5,7 @@ import { GlobalStyles } from "../../../constants/styles";
 import { getTodosHelper } from "../../../helpers/todos";
 
 import Loader from "../../../components/UI/Loader";
-import Todo from "../../../components/user/todos/Todo";
+import TodosList from "../../../components/user/todos/TodosList";
 
 const Todos = () => {
   const [todosState, setTodosState] = useState({
@@ -35,14 +35,7 @@ const Todos = () => {
           <Loader />
         </View>
       ) : (
-        <>
-          <Text style={styles.title}>My Todos</Text>
-          <FlatList
-            data={todosState.todos}
-            renderItem={({ item }) => <Todo todo={item} />}
-            keyExtractor={(item) => item.TodoId}
-          />
-        </>
+        <TodosList todos={todosState.todos} />
       )}
     </View>
   );
@@ -53,11 +46,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: GlobalStyles.colors.secondary,
     padding: 24,
-  },
-  title: {
-    fontSize: 28,
-    textAlign: "center",
-    fontWeight: "700",
   },
   loader: {
     justifyContent: "center",
