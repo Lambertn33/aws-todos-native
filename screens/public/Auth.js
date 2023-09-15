@@ -28,11 +28,16 @@ const Auth = ({ navigation }) => {
       if (authIsLogin) {
         console.log("Login.......");
       } else {
-        const response = await signUpHelper(username, email, password);
+        await signUpHelper(username, email, password);
         setCognitoAuth((prevState) => {
           return { ...prevState, success: true, isSubmitting: false };
         });
-        console.log(response);
+        navigation.push("confirm", {
+          userToConfirm: {
+            username: username,
+            email: email,
+          },
+        });
       }
     } catch (err) {
       setCognitoAuth((prevState) => {

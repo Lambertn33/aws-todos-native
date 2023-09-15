@@ -1,8 +1,11 @@
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import Welcome from "./screens/public/Welcome";
+import Confirm from "./screens/public/Confirm";
 import Auth from "./screens/public/Auth";
+import SuccessConfirm from "./screens/public/SuccessConfirm";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +18,8 @@ const PublicStack = () => {
     <Stack.Navigator initialRouteName="welcome" screenOptions={screenOptions}>
       <Stack.Screen name="auth" component={Auth} />
       <Stack.Screen name="welcome" component={Welcome} />
+      <Stack.Screen name="confirm" component={Confirm} />
+      <Stack.Screen name="successConfirm" component={SuccessConfirm} />
     </Stack.Navigator>
   );
 };
