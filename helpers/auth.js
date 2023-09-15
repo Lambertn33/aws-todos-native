@@ -3,7 +3,6 @@ import {
   CognitoUser,
   AuthenticationDetails,
 } from "amazon-cognito-identity-js";
-import axios from "axios";
 
 import { cognitoConfig } from "../config/cognito";
 
@@ -68,4 +67,11 @@ export function signInHelper(username, password) {
       },
     });
   });
+}
+
+export function signOutHelper() {
+  const cognitoUser = userPool.getCurrentUser();
+  if (cognitoUser) {
+    cognitoUser.signOut();
+  }
 }
