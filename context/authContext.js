@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { getCurrentUserHelper, signInHelper, signOutHelper } from "../helpers/auth";
@@ -21,6 +21,10 @@ const AuthContextProvider = ({ children }) => {
       setUser(null);
     }
   };
+
+  useEffect(()=> {
+    getCurrentUser();
+  }, []);
 
   const signIn = async (username, password) => {
     await signInHelper(username, password);

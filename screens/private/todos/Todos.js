@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
-import { View, Text, StyleSheet, FlatList, Alert } from "react-native";
+import { useState, useCallback } from "react";
+import { View, StyleSheet, Alert } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+
 import { GlobalStyles } from "../../../constants/styles";
 
 import { deleteTodoHelper, getTodosHelper } from "../../../helpers/todos";
@@ -10,23 +12,27 @@ import TodosList from "../../../components/user/todos/TodosList";
 const Todos = () => {
   const [todosState, setTodosState] = useState({
     todos: [],
-    isLoading: false,
+    isLoading: true,
   });
 
-  useEffect(() => {
-    // fetch user todos
-    const fetchTodos = async () => {
-      setTodosState((prevState) => {
-        return { ...prevState, isLoading: true };
-      });
-      const fetchedTodos = await getTodosHelper();
-      setTodosState({
-        isLoading: false,
-        todos: fetchedTodos,
-      });
-    };
-    fetchTodos();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      // Fetch user todos when the tab is focused
+      const fetchTodos = async () => {
+        try {
+          const fetchedTodos = await getTodosHelper();
+          setTodosState({
+            isLoading: false,
+            todos: fetchedTodos,
+          });
+        } catch (error) {
+          Alert.alert("Error", error.message);
+        }
+      };
+
+      fetchTodos();
+    }, []) // Pass an empty dependency array to fetch data only when the tab is focused
+  );
 
   // delete todo
   const deleteTodoHandler = async (todoId) => {

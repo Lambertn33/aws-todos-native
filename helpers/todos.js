@@ -8,6 +8,20 @@ const getToken = async () => {
   return await AsyncStorage.getItem("token");
 };
 
+export async function createTodoHelper(title, description) {
+  const token = await getToken();
+  const response = await axios.post(
+    todosEndpoint,
+    { title, description },
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  return await response.data;
+}
+
 export async function getTodosHelper() {
   const token = await getToken();
   const response = await axios.get(todosEndpoint, {
