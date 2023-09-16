@@ -1,9 +1,10 @@
 import { View, StyleSheet, Alert } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { createTodoHelper } from "../../../helpers/todos";
 
 import ManageTodoForm from "../../../components/user/todos/ManageTodoForm";
 import { GlobalStyles } from "../../../constants/styles";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 const ManageTodo = ({ navigation }) => {
   const [newTodo, setNewTodo] = useState({
@@ -11,6 +12,21 @@ const ManageTodo = ({ navigation }) => {
     error: "",
     success: false,
   });
+
+  useLayoutEffect(() => {
+    navigation.getParent().setOptions({
+      headerRight: () => (
+        <View style={{ marginRight: 4 }}>
+          <Ionicons
+            name="list"
+            color="white"
+            size={32}
+            onPress={() => navigation.push('todosList')}
+          />
+        </View>
+      ),
+    });
+  }, [navigation]);
 
   const navigatetoTodosHandler = () => {
     navigation.navigate("todos");
@@ -37,7 +53,6 @@ const ManageTodo = ({ navigation }) => {
       });
       Alert.alert("Error", err.message);
     }
-    console.log(title);
   };
 
   return (

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { StyleSheet } from "react-native";
+import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -37,6 +37,18 @@ const PublicStack = () => {
   );
 };
 
+const TodosStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="todosList"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="todosList" component={Todos} />
+      <Stack.Screen name="manageTodo" component={ManageTodo} />
+    </Stack.Navigator>
+  );
+};
+
 const PrivateStack = () => {
   return (
     <Tabs.Navigator
@@ -62,25 +74,26 @@ const PrivateStack = () => {
       }}
     >
       <Tabs.Screen
-        component={Todos}
+        component={TodosStack}
         name="todos"
-        options={{
-          title: "My Todos",
-          tabBarLabel: "Todos",
-          tabBarIcon: ({ size }) => (
-            <Ionicons name="calendar" color="white" size={size} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        component={ManageTodo}
-        name="manageTodo"
-        options={{
-          title: "New Todo",
-          tabBarLabel: "New todo",
-          tabBarIcon: ({ size }) => (
-            <Ionicons name="add-circle" color="white" size={size} />
-          ),
+        options={({ navigation }) => {
+          return {
+            headerRight: () => (
+              <View style={{ marginRight: 4 }}>
+                <Ionicons
+                  name="add"
+                  color="white"
+                  size={32}
+                  onPress={() => navigation.navigate("manageTodo")}
+                />
+              </View>
+            ),
+            title: "Todos",
+            tabBarLabel: "Todos Management",
+            tabBarIcon: ({ size }) => (
+              <Ionicons name="calendar" color="white" size={size} />
+            ),
+          };
         }}
       />
       <Tabs.Screen
@@ -115,9 +128,3 @@ export default function App() {
     </AuthContextProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

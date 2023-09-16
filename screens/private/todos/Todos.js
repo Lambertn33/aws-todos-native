@@ -1,19 +1,41 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useLayoutEffect } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
 import { GlobalStyles } from "../../../constants/styles";
 
 import { deleteTodoHelper, getTodosHelper } from "../../../helpers/todos";
 
-import Loader from "../../../components/UI/Loader";
 import TodosList from "../../../components/user/todos/TodosList";
+import Loader from "../../../components/UI/Loader";
 
-const Todos = () => {
+const Todos = ({ navigation }) => {
   const [todosState, setTodosState] = useState({
     todos: [],
     isLoading: true,
   });
+
+  const refreshHeaderOptions = () => {
+    navigation.getParent().setOptions({
+      headerRight: () => (
+        <View style={{ marginRight: 4 }}>
+          <Ionicons
+            name="add"
+            color="white"
+            size={32}
+            onPress={() => navigation.push("manageTodo")}
+          />
+        </View>
+      ),
+    });
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      refreshHeaderOptions();
+    }, [])
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -31,7 +53,7 @@ const Todos = () => {
       };
 
       fetchTodos();
-    }, []) // Pass an empty dependency array to fetch data only when the tab is focused
+    }, [])
   );
 
   // delete todo
