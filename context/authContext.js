@@ -33,7 +33,6 @@ const AuthContextProvider = ({ children }) => {
 
   const signOut = async () => {
     await signOutHelper();
-    console.log('logout');
     await AsyncStorage.removeItem("token");
     setUser(null);
   };
