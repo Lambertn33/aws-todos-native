@@ -1,17 +1,31 @@
 import { View, StyleSheet, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { createTodoHelper } from "../../../helpers/todos";
+import { createTodoHelper, updateTodoHelper } from "../../../helpers/todos";
 
 import ManageTodoForm from "../../../components/user/todos/ManageTodoForm";
 import { GlobalStyles } from "../../../constants/styles";
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState, useEffect } from "react";
 
-const ManageTodo = ({ navigation }) => {
+const ManageTodo = ({ navigation, route }) => {
   const [newTodo, setNewTodo] = useState({
     isSubmitting: false,
     error: "",
     success: false,
   });
+
+  const [todoToEdit, setTodoToEdit] = useState(null);
+
+  const [updateTodo, setUpdateTodo] = useState({
+    isSubmitting: false,
+    error: "",
+    success: false,
+  });
+
+  useEffect(() => {
+    if (route.params && route.params.todoToEdit) {
+      setTodoToEdit(route.params.todoToEdit);
+    }
+  }, [route]);
 
   useLayoutEffect(() => {
     navigation.getParent().setOptions({
@@ -21,7 +35,7 @@ const ManageTodo = ({ navigation }) => {
             name="list"
             color="white"
             size={32}
-            onPress={() => navigation.push('todosList')}
+            onPress={() => navigation.push("todosList")}
           />
         </View>
       ),
@@ -29,9 +43,35 @@ const ManageTodo = ({ navigation }) => {
   }, [navigation]);
 
   const navigatetoTodosHandler = () => {
-    navigation.navigate("todos");
+    navigation.navigate("todosList");
   };
 
+  // update todo
+  const updateTodoHandler = async (id, title, description) => {
+    setUpdateTodo((prevState) => {
+      return { ...prevState, isSubmitting: true };
+    });
+
+    try {
+      await updateTodoHelper(id, title, description);
+      setUpdateTodo((prevState) => {
+        return { ...prevState, isSubmitting: false };
+      });
+      Alert.alert("Success", "todo updated successfully", [
+        {
+          text: "OK",
+          onPress: navigatetoTodosHandler,
+        },
+      ]);
+    } catch (err) {
+      setUpdateTodo((prevState) => {
+        return { ...prevState, isSubmitting: false };
+      });
+      Alert.alert("Error", err.message);
+    }
+  };
+
+  //create todo
   const createNewTodoHandler = async (title, description) => {
     setNewTodo((prevState) => {
       return { ...prevState, isSubmitting: true };
@@ -61,6 +101,9 @@ const ManageTodo = ({ navigation }) => {
         hasError={newTodo.error.trim().length > 0}
         isSubmitting={newTodo.isSubmitting}
         onCreateNewTodo={createNewTodoHandler}
+        onUpdateTodo={updateTodoHandler}
+        isEditing={todoToEdit !== null}
+        todoToEdit={todoToEdit}
       />
     </View>
   );

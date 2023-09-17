@@ -10,8 +10,10 @@ const Todo = ({ todo, onDeleteTodo }) => {
   };
 
   const navigateToTodoUpdatePage = () => {
-    navigation.push("cre")
-  }
+    navigation.push("manageTodo", {
+      todoToEdit: todo,
+    });
+  };
 
   return (
     <View style={styles.todo}>
@@ -23,7 +25,7 @@ const Todo = ({ todo, onDeleteTodo }) => {
         </View>
       </View>
       <View style={styles.todoActions}>
-        <Ionicons name="pencil" size={24} color="black" />
+        <Ionicons name="pencil" size={24} color="black" onPress={navigateToTodoUpdatePage}/>
         <Ionicons
           name="trash"
           size={24}
@@ -47,9 +49,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   todoData: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
   },
   title: {
     fontSize: 22,

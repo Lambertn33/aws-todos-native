@@ -1,14 +1,30 @@
 import { View, Text, StyleSheet, Alert } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Input from "../../UI/Input";
 import Button from "../../UI/Button";
 import Loader from "../../UI/Loader";
 
-const ManageTodoForm = ({ onCreateNewTodo, hasError, isSubmitting }) => {
+const ManageTodoForm = ({
+  onCreateNewTodo,
+  onUpdateTodo,
+  isEditing,
+  todoToEdit,
+  isSubmitting,
+}) => {
   const [inputValues, setInputValues] = useState({
     title: "",
     description: "",
   });
+
+  const [todoId, setTodoId] = useState(null);
+
+  useEffect(() => {
+    setTodoId(isEditing ? todoToEdit.TodoId : null);
+    setInputValues({
+      title: isEditing ? todoToEdit?.Title : "",
+      description: isEditing ? todoToEdit.Description : "",
+    });
+  }, [isEditing, todoToEdit]);
 
   const inputChangedHandler = (input, value) => {
     setInputValues((prevValues) => {
@@ -29,7 +45,11 @@ const ManageTodoForm = ({ onCreateNewTodo, hasError, isSubmitting }) => {
       Alert.alert("Validations error", "please fill all fields");
       return;
     }
-    onCreateNewTodo(inputValues.title, inputValues.description);
+    if (isEditing) {
+      onUpdateTodo(todoId, inputValues.title, inputValues.description);
+    } else {
+      onCreateNewTodo(inputValues.title, inputValues.description);
+    }
   };
 
   return (
@@ -40,14 +60,16 @@ const ManageTodoForm = ({ onCreateNewTodo, hasError, isSubmitting }) => {
         </View>
       ) : (
         <>
-          <Text style={styles.formTitle}>Create Todo</Text>
+          <Text style={styles.formTitle}>
+            {!isEditing ? "Create Todo" : `Edit ${todoToEdit.Title} Todo`}
+          </Text>
           <View style={styles.form}>
             <Input
               label="Title"
               otherProps={{
                 keyboardType: "default",
                 onChangeText: inputChangedHandler.bind(this, "title"),
-                value: inputValues.username,
+                value: inputValues.title,
               }}
             />
             <Input
@@ -57,10 +79,12 @@ const ManageTodoForm = ({ onCreateNewTodo, hasError, isSubmitting }) => {
                 numberOfLines: 3,
                 multiline: true,
                 onChangeText: inputChangedHandler.bind(this, "description"),
-                value: inputValues.username,
+                value: inputValues.description,
               }}
             />
-            <Button onPress={submitForm}>Create Todo</Button>
+            <Button onPress={submitForm}>
+              {!isEditing ? "Create Todo" : `Edit ${todoToEdit.Title} Todo`}
+            </Button>
           </View>
         </>
       )}
@@ -71,7 +95,7 @@ const ManageTodoForm = ({ onCreateNewTodo, hasError, isSubmitting }) => {
 const styles = StyleSheet.create({
   formContainer: {
     gap: 16,
-    flex: 1
+    flex: 1,
   },
   form: {
     backgroundColor: "white",
@@ -85,7 +109,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
   },
   loader: {
-    alignItems: 'center',
+    alignItems: "center",
     flex: 1,
   },
 });

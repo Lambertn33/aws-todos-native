@@ -33,6 +33,7 @@ export async function getTodosHelper() {
 }
 
 export async function updateTodoHelper(todoId, title, description) {
+  const token = await getToken();
   const response = await axios.post(
     `${todosEndpoint}/${todoId}`,
     { title, description },
