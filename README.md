@@ -1,7 +1,7 @@
 # aws-todos-native
 A react native application that manages user todos from AWS
 
-Web Application (http://react-aws-todos-app.s3-website.eu-north-1.amazonaws.com/)
+Web Application Version (http://react-aws-todos-app.s3-website.eu-north-1.amazonaws.com/)
 
 # Demonstration
 1. https://github.com/Lambertn33/aws-todos-native/assets/60555392/e2b8a223-b354-4550-bf83-d84de31b1880
